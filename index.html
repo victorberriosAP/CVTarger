@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Adapta tu currículum a una oferta laboral con ayuda de IA.">
+  <title>CVTarger — Tu próximo trabajo empieza aquí</title>
+  <!-- Bootstrap 5.3.8 CSS vía CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <!-- CSS propio: solo detalles visuales -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav class="navbar bg-white border-bottom py-3">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2 fw-bold" href="#" aria-label="CV Match, inicio">
+        <span class="brand-mark">CV</span>
+        <span>CV Target</span>
+      </a>
+      <span class="small text-secondary d-none d-sm-inline">Tu próximo paso profesional</span>
+    </div>
+  </nav>
+
+  <main class="container py-5">
+    <header class="text-center mx-auto hero mb-4 mb-lg-5">
+      <p class="small fw-bold text-uppercase eyebrow mb-3"><span class="eyebrow-dot me-2"></span>Prepara tu próxima postulación</p>
+      <h1 class="display-5 fw-bold mb-3">Tu experiencia merece<br class="d-none d-md-block"><span class="brand-green">la oportunidad correcta.</span></h1>
+      <p class="lead text-secondary fs-6 mx-auto hero-copy">Adapta tu currículum a cada oferta laboral. Presenta tus fortalezas con claridad y destaca la experiencia más relevante para el puesto.</p>
+    </header>
+
+    <section class="card border-0 shadow-sm rounded-4 overflow-hidden" aria-label="Formulario para adaptar el currículum">
+      <div class="row g-0">
+        <div class="col-lg-7">
+          <div class="p-4 p-md-5">
+            <div class="d-flex align-items-start gap-3 mb-4">
+              <span class="step-number">01</span>
+              <div>
+                <h2 class="h5 fw-bold mb-1">Tu currículum</h2>
+                <p class="small text-secondary mb-0">Sube tu CV para comenzar.</p>
+              </div>
+            </div>
+
+            <label class="upload-zone w-100 rounded-3 text-center p-4 mb-2" for="cv-file" id="upload-zone">
+              <span class="upload-icon d-inline-flex align-items-center justify-content-center mb-3" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5M5 14.5v3A2.5 2.5 0 0 0 7.5 20h9a2.5 2.5 0 0 0 2.5-2.5v-3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <span class="d-block fw-semibold small" id="upload-title">Arrastra tu CV aquí</span>
+              <span class="d-block small text-secondary mt-1">o haz clic para buscar un archivo</span>
+              <span class="d-block small text-secondary mt-3 file-types">PDF o DOCX · Máximo 10 MB</span>
+              <input id="cv-file" name="cv-file" type="file" accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" class="visually-hidden">
+            </label>
+            <p class="small text-secondary mb-4 file-status" id="file-status" aria-live="polite">Tus datos se usarán para preparar tu postulación.</p>
+
+            <div class="d-flex align-items-start gap-3 mb-3">
+              <span class="step-number">02</span>
+              <div>
+                <h2 class="h5 fw-bold mb-1">La oferta laboral</h2>
+                <p class="small text-secondary mb-0">Pega la descripción del puesto al que quieres postular.</p>
+              </div>
+            </div>
+
+            <label class="visually-hidden" for="job-offer">Descripción de la oferta laboral</label>
+            <textarea id="job-offer" name="job-offer" class="form-control job-textarea" rows="7" placeholder="Pega aquí la oferta laboral: responsabilidades, requisitos, habilidades y experiencia que busca la empresa..."></textarea>
+            <div class="d-flex justify-content-between gap-3 mt-2 mb-4 small text-secondary">
+              <span>Incluye todos los detalles que puedas.</span>
+              <span id="char-count" class="text-nowrap">0 caracteres</span>
+            </div>
+
+            <button class="btn btn-brand w-100 py-3 fw-semibold" id="adapt-button" type="button">
+              Preparar mi CV <span class="ms-2" aria-hidden="true">→</span>
+            </button>
+            <p class="small text-secondary text-center mt-3 mb-0">La adaptación con IA se conectará en la siguiente etapa.</p>
+            <div class="alert alert-warning small mt-3 mb-0 d-none" id="form-message" role="status" aria-live="polite"></div>
+          </div>
+        </div>
+
+        <aside class="col-lg-5 preview-panel">
+          <div class="p-4 p-md-5 h-100">
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+              <span class="small fw-bold text-secondary preview-label">TU ESPACIO DE TRABAJO</span>
+              <span class="badge rounded-pill text-bg-light border status-pill"><span class="status-dot me-1"></span> Listo para empezar</span>
+            </div>
+
+            <div class="preview-illustration position-relative d-flex align-items-center justify-content-center" aria-hidden="true">
+              <div class="orbit orbit-one"></div>
+              <div class="orbit orbit-two"></div>
+              <div class="document-card position-relative">
+                <div class="doc-top d-flex gap-1 mb-3"><span></span><span></span><span></span></div>
+                <div class="doc-avatar mb-2"></div>
+                <div class="doc-line wide"></div><div class="doc-line medium"></div>
+                <div class="doc-divider"></div>
+                <div class="doc-line wide"></div><div class="doc-line short"></div><div class="doc-line medium"></div>
+                <div class="doc-divider"></div>
+                <div class="doc-line wide"></div><div class="doc-line short"></div>
+              </div>
+              <span class="sparkle sparkle-one">✦</span>
+              <span class="sparkle sparkle-two">✧</span>
+              <span class="floating-tag">Tu experiencia, mejor enfocada</span>
+            </div>
+
+            <h2 class="h4 fw-bold mt-3 mb-2">Un CV pensado para esa oportunidad</h2>
+            <p class="small text-secondary lh-lg mb-4">Cuando conectemos la IA, recibirás sugerencias personalizadas según los requisitos de cada puesto.</p>
+
+            <ul class="list-unstyled d-grid gap-3 mb-4">
+              <li class="d-flex gap-3 align-items-start">
+                <span class="check-icon">✓</span>
+                <span><strong class="d-block small">Enfoque relevante</strong><span class="d-block small text-secondary mt-1">Destaca la experiencia relacionada con el cargo.</span></span>
+              </li>
+              <li class="d-flex gap-3 align-items-start">
+                <span class="check-icon">✓</span>
+                <span><strong class="d-block small">Palabras clave</strong><span class="d-block small text-secondary mt-1">Identifica habilidades que pide la oferta.</span></span>
+              </li>
+              <li class="d-flex gap-3 align-items-start">
+                <span class="check-icon">✓</span>
+                <span><strong class="d-block small">Contenido fiel a ti</strong><span class="d-block small text-secondary mt-1">Mejora la redacción sin inventar experiencia.</span></span>
+              </li>
+            </ul>
+            <div class="border-top pt-3 small text-secondary"><span class="brand-green me-1" aria-hidden="true">♢</span> Tu perfil profesional merece cuidado y precisión.</div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="card border-0 shadow-sm rounded-4 mt-4 p-4 p-md-5" aria-live="polite">
+      <div class="d-flex align-items-center justify-content-between gap-3">
+        <div>
+          <p class="small text-secondary fw-bold preview-label mb-2">SIGUIENTE PASO</p>
+          <h2 class="h5 fw-bold mb-0">Tu CV adaptado aparecerá aquí</h2>
+        </div>
+        <span class="result-icon d-flex align-items-center justify-content-center rounded-3" aria-hidden="true">✧</span>
+      </div>
+      <p class="small text-secondary mt-3 mb-3">Esta área está preparada para mostrar el resultado cuando conectemos la inteligencia artificial.</p>
+      <div class="result-skeleton d-grid gap-2" aria-hidden="true"><span></span><span></span><span></span></div>
+    </section>
+  </main>
+
+
+<footer class="site-footer mt-auto py-4 bg-white border-top">
+  <div class="container d-flex flex-column flex-md-row justify-content-between align-items-start gap-2 text-start">
+    <span>© 2026 CV Targer</span>
+    <span>
+      Creado por
+      <a href="https://itera-ecru.vercel.app/" target="_blank" rel="noopener noreferrer"><strong>ITERA</strong></a>
+      — IMAGINA | DESARROLLA | IMPLEMENTA
+    </span>
+  </div>
+</footer>
+
+
+  <!-- Bootstrap 5.3.8 JavaScript bundle vía CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  <script src="app.js"></script>
+</body>
+</html>
