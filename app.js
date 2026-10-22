@@ -324,6 +324,9 @@ adaptButton.addEventListener("click", async () => {
   resultDescription.textContent =
     "Esto puede tardar unos segundos. No cierres esta página.";
 
+  // Baja hasta la zona de resultados para que se vea el progreso.
+  resultTitle.scrollIntoView({ behavior: "smooth", block: "center" });
+
   try {
     const datos = new FormData();
     datos.append("cv", selectedFile);
@@ -334,10 +337,20 @@ adaptButton.addEventListener("click", async () => {
       body: datos,
     });
 
-    const resultado = await respuesta.json();
+    // Si el servidor responde algo que no es JSON (por ejemplo una
+    // página de error de Vercel), no se rompe: se muestra el código.
+    let resultado = {};
+    try {
+      resultado = await respuesta.json();
+    } catch (_) {
+      // Respuesta sin formato JSON.
+    }
 
     if (!respuesta.ok) {
-      throw new Error(resultado.error || "No se pudo adaptar el CV.");
+      throw new Error(
+        resultado.error ||
+          `El servidor respondió con el código ${respuesta.status}. Revisa los registros en Vercel.`
+      );
     }
 
     if (!resultado.resultado) {
@@ -360,6 +373,9 @@ adaptButton.addEventListener("click", async () => {
 
     showMessage("Tu currículum se adaptó correctamente.", true);
   } catch (error) {
+    // Deja el detalle del error en la consola del navegador (F12).
+    console.error("Error al adaptar el CV:", error);
+
     resultTitle.textContent = "No pudimos adaptar tu CV";
     resultDescription.textContent =
       "Comprueba tu conexión y vuelve a intentarlo.";
