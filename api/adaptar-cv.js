@@ -9,7 +9,14 @@ import {
 
 import Groq from "groq-sdk";
 import mammoth from "mammoth";
+
+// IMPORTANTE (arregla el error "DOMMatrix is not defined" en Vercel):
+// la línea de "pdf-parse/worker" debe ir SIEMPRE antes que la de
+// "pdf-parse". Así Vercel incluye el componente @napi-rs/canvas
+// que necesita la librería para leer PDFs.
+import { CanvasFactory } from "pdf-parse/worker";
 import { PDFParse } from "pdf-parse";
+
 import { formidable } from "formidable";
 import { readFile } from "node:fs/promises";
 
@@ -87,7 +94,8 @@ async function extraerTextoCV(archivo) {
   const contenido = await readFile(archivo.filepath);
 
   if (extension === "pdf") {
-    const lector = new PDFParse({ data: contenido });
+    // CanvasFactory le da a la librería lo que necesita en el servidor.
+    const lector = new PDFParse({ data: contenido, CanvasFactory });
 
     try {
       const resultado = await lector.getText();
