@@ -429,30 +429,110 @@ export default async function handler(req, res) {
     }
 
     // Instrucciones para adaptar el currículum sin inventar datos.
-    const instrucciones = `
-Adapta el siguiente currículum a la oferta laboral.
+    // PROMPT
+    
+      const instrucciones = `
+    Actúa como especialista en selección de personal, análisis de ofertas
+    laborales y optimización de currículums para sistemas ATS.
 
-Reglas:
-- Escribe en español.
-- Utiliza únicamente información respaldada por el CV original.
-- No inventes experiencia, estudios, habilidades ni resultados.
-- Destaca las competencias y experiencias más relevantes para la oferta.
-- Conserva todos los cargos relevantes, sus empresas, fechas y ubicaciones disponibles.
-- Usa el nombre del candidato como primera línea.
-- Escribe las especialidades debajo del nombre.
-- Usa títulos de sección precedidos por ##.
-- Utiliza **negrita** para los nombres de cargos y empresas.
-- Utiliza _cursiva_ para fechas cuando corresponda.
-- Usa viñetas que comiencen con - para las responsabilidades.
-- No incluyas separadores como ---.
-- Devuelve solamente el currículum adaptado.
+    OBJETIVO
+    Adaptar el currículum original a la oferta laboral proporcionada,
+    maximizando la relevancia de la experiencia real del candidato para
+    el cargo, sin inventar, exagerar ni alterar sus antecedentes.
 
-CURRÍCULUM ORIGINAL:
-${cv}
+    REGLAS DE VERACIDAD
+    - Utiliza únicamente información respaldada por el CV original.
+    - No inventes experiencia, habilidades, estudios, certificaciones,
+      funciones, resultados, métricas ni responsabilidades.
+    - No atribuyas liderazgo, supervisión de personas, gestión de equipos
+      o toma de decisiones si el CV no lo demuestra explícitamente.
+    - No confundas coordinación entre áreas con personal a cargo.
+    - No confundas interacción con transportistas con planificación de
+      rutas, asignación de vehículos o supervisión de conductores.
+    - No agregues herramientas, conocimientos o palabras clave solo
+      porque aparecen en la oferta.
+    - No cambies empresas, cargos, fechas, ubicaciones ni títulos
+      académicos.
+    - No calcules ni inventes años de experiencia específicos que no
+      puedan justificarse a partir de los antecedentes.
+    - Si falta información para demostrar un requisito, no la inventes.
+      Simplemente evita presentarla como una competencia acreditada.
 
-OFERTA LABORAL:
-${oferta}
-`;
+    ANÁLISIS INTERNO ANTES DE REDACTAR
+    1. Identifica las funciones principales, competencias, herramientas
+       y requisitos de la oferta laboral.
+    2. Identifica las experiencias y evidencias concretas del CV que
+       coinciden con cada requisito.
+    3. Distingue entre:
+       a) Competencias directamente demostradas.
+       b) Experiencias transferibles que guardan relación con el cargo.
+       c) Requisitos que no están demostrados en el CV.
+    4. Prioriza las experiencias directamente relacionadas con las
+       funciones principales del puesto.
+    5. Ordena las responsabilidades dentro de cada cargo según su
+       relevancia para la oferta, sin alterar los hechos.
+    6. Conserva las competencias técnicas que diferencian al candidato
+       y que también sean útiles para el puesto.
+    7. Reduce el protagonismo de las funciones menos relevantes, pero
+       conserva los cargos y antecedentes laborales importantes.
+    8. Comprueba que cada afirmación del resultado esté respaldada
+       por el currículum original.
+
+    ADAPTACIÓN DEL CONTENIDO
+    - Ajusta el perfil profesional para reflejar el tipo de cargo al que
+      postula el candidato, destacando su experiencia más pertinente.
+    - Adapta el titular profesional a la oferta sin atribuir un cargo,
+      nivel de responsabilidad o especialidad que no posea.
+    - Prioriza responsabilidades relacionadas con las funciones del
+      puesto, no únicamente las herramientas tecnológicas.
+    - Utiliza términos de la oferta cuando describan fielmente la
+      experiencia del candidato.
+    - Reformula las responsabilidades para mejorar su claridad,
+      precisión y orientación profesional.
+    - No agregues resultados cuantificables si no están documentados.
+    - No conviertas responsabilidades de apoyo en responsabilidades
+      de dirección o supervisión.
+    - Conserva los cargos relevantes, empresas, fechas y ubicaciones.
+    - Mantén una descripción breve de los empleos antiguos o menos
+      relacionados cuando corresponda.
+    - No elimines formación académica, certificaciones ni habilidades
+      que aporten valor a la candidatura.
+
+    FORMATO DE SALIDA
+    - Escribe en español profesional, natural y claro.
+    - Usa el nombre del candidato como primera línea.
+    - Escribe las especialidades debajo del nombre, separadas por |.
+    - Utiliza títulos de sección precedidos por ##.
+    - Utiliza **negrita** para los nombres de cargos y empresas.
+    - Utiliza _cursiva_ para las fechas cuando corresponda.
+    - Usa viñetas que comiencen con - para las responsabilidades.
+    - Mantén un formato limpio, legible y compatible con ATS.
+    - Evita tablas, columnas, iconos, gráficos, adornos y separadores.
+    - Evita repeticiones, frases genéricas y listas excesivas de palabras
+      clave.
+    - Prioriza una extensión adecuada a la trayectoria del candidato,
+      idealmente de una o dos páginas cuando sea viable.
+
+    CONTROL FINAL
+    Antes de entregar el resultado, verifica internamente que:
+    - No se haya inventado ni exagerado ningún antecedente.
+    - Las fechas, empresas y cargos coincidan con el original.
+    - Las funciones más relevantes para la oferta aparezcan primero.
+    - El perfil profesional sea coherente con la experiencia demostrada.
+    - No se presente como acreditado ningún requisito ausente del CV.
+    - El documento sea claro, consistente y fácil de leer.
+
+    Devuelve únicamente el currículum adaptado.
+    No incluyas explicaciones, puntuaciones de compatibilidad,
+    observaciones ni comentarios fuera del currículum.
+
+    CURRÍCULUM ORIGINAL:
+    ${cv}
+
+    OFERTA LABORAL:
+    ${oferta}
+    `;
+
 
     // Solicitar la adaptación al modelo de Groq.
     const respuesta = await groq.chat.completions.create({
