@@ -110,3 +110,22 @@ body {
   .preview-illustration { min-height: 225px; }
   .floating-tag { right: 0; font-size: .58rem; }
 }
+
+/*   */
+.btn-mode {
+  border-radius: .5rem;
+  padding: .4rem .8rem;
+}
+
+.btn-mode-inactive {
+  background: transparent;
+  border-color: var(--brand-green);
+  color: var(--brand-green);
+}
+
+.btn-mode-inactive:hover,
+.btn-mode-inactive:focus {
+  background: var(--brand-green);
+  border-color: var(--brand-green);
+  color: #fff;
+}

@@ -42,7 +42,7 @@ offerModeControls.setAttribute(
 offerModeControls.innerHTML = `
   <button
     type="button"
-    class="btn btn-sm btn-primary"
+    class="btn btn-sm btn-brand btn-mode"
     id="offer-mode-text"
     aria-pressed="true"
   >
@@ -51,7 +51,7 @@ offerModeControls.innerHTML = `
 
   <button
     type="button"
-    class="btn btn-sm btn-outline-primary"
+    class="btn btn-sm btn-brand btn-mode btn-mode-inactive"
     id="offer-mode-url"
     aria-pressed="false"
   >
@@ -90,7 +90,7 @@ if (offerLabel && jobOffer) {
 offerUrlInput.classList.add("d-none");
 offerUrlHelp.classList.add("d-none");
 
-// Cambia entre el campo de texto y el campo de URL.
+// Cambia entre descripción manual y URL.
 function setOfferMode(mode) {
   offerMode = mode;
 
@@ -103,16 +103,16 @@ function setOfferMode(mode) {
   offerUrlInput.classList.toggle("d-none", !usarUrl);
   offerUrlHelp.classList.toggle("d-none", !usarUrl);
 
-  // Actualiza los estilos de los botones.
-  offerTextModeButton.className =
-    `btn btn-sm ${
-      usarUrl ? "btn-outline-primary" : "btn-primary"
-    }`;
+  // Actualiza los estilos conservando las clases base.
+  offerTextModeButton.classList.toggle(
+    "btn-mode-inactive",
+    usarUrl
+  );
 
-  offerUrlModeButton.className =
-    `btn btn-sm ${
-      usarUrl ? "btn-primary" : "btn-outline-primary"
-    }`;
+  offerUrlModeButton.classList.toggle(
+    "btn-mode-inactive",
+    !usarUrl
+  );
 
   // Actualiza los estados accesibles.
   offerTextModeButton.setAttribute(
@@ -138,7 +138,6 @@ offerUrlModeButton.addEventListener("click", () => {
 });
 
 offerUrlInput.addEventListener("input", clearMessage);
-
 // ======================================================
 // ELEMENTOS DE LA INTERFAZ
 // ======================================================
